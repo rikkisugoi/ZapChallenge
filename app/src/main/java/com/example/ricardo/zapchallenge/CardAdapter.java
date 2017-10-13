@@ -1,10 +1,12 @@
 package com.example.ricardo.zapchallenge;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Transition;
 import android.util.Log;
@@ -28,23 +30,33 @@ import static android.R.attr.path;
  */
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
-    private final Context context;
+    private static ClickListener clickListener;
+    private Context context;
     private ArrayList<Imovel> imoveis;
     private Bitmap bitmap;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public View mView;
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView precoVendaView, imovelLocalView, imovelAreaView;
         private ImageView imageView;
+        private CardView cardView;
 
         public ViewHolder(View v) {
             super(v);
-            mView = v;
             precoVendaView = (TextView) v.findViewById(R.id.imovel_preco);
             imovelLocalView = (TextView) v.findViewById(R.id.imovel_local);
             imovelAreaView = (TextView) v.findViewById(R.id.imovel_area);
             imageView = (ImageView) v.findViewById(R.id.imovel_imagem);
+            v.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            clickListener.onItemClick(getAdapterPosition(), v);
+        }
+    }
+
+    public void setOnClickListener(ClickListener clickListener) {
+        CardAdapter.clickListener = clickListener;
     }
 
     public CardAdapter(Context context, ArrayList<Imovel> imoveis) {
@@ -61,7 +73,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Imovel imovel = imoveis.get(position);
+        final Imovel imovel = imoveis.get(position);
 
         Glide.with(context)
                 .load(imovel.getUrlImagem())
@@ -110,10 +122,25 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         imovelArea += " m²";
         holder.imovelLocalView.setText(imovelArea);
 
+
+
+//        holder.cardView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, DetailsActivity.class);
+//                intent.putExtra("codImovel", imovel.getCodImovel());
+//                context.startActivity(intent);
+//            }
+//        });
+
     }
 
     @Override
     public int getItemCount() {
         return imoveis.size();
+    }
+
+    public interface ClickListener {
+        void onItemClick(int position, View v);
     }
 }
