@@ -36,13 +36,13 @@ class Imovel {
     @SerializedName("Cliente")
     private Cliente cliente;
     @SerializedName("UrlImagem")
-    private URI urlImagem;
+    private String urlImagem;
     @SerializedName("SubTipoOferta")
     private String subTipoOferta;
     @SerializedName("SubtipoImovel")
     private String subTipoImovel;
 
-    public Imovel(int codImovel, String tipoImovel, Endereco endereco, double precoVenda, int dormitorios, int suites, int vagas, double areaUtil, double areaTotal, String dataAtualizacao, Cliente cliente, URI urlImagem, String subTipoOferta, String subTipoImovel) {
+    public Imovel(int codImovel, String tipoImovel, Endereco endereco, double precoVenda, int dormitorios, int suites, int vagas, double areaUtil, double areaTotal, String dataAtualizacao, Cliente cliente, String urlImagem, String subTipoOferta, String subTipoImovel) {
         this.codImovel = codImovel;
         this.tipoImovel = tipoImovel;
         this.endereco = endereco;
@@ -99,7 +99,7 @@ class Imovel {
 
     public Cliente getCliente() { return cliente; }
 
-    public URI getUrlImagem() {
+    public String getUrlImagem() {
         return urlImagem;
     }
 

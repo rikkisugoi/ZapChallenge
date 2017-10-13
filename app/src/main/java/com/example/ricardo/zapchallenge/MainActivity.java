@@ -25,8 +25,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView tipoImovelView;
     private TextView precoVendaView;
     private TextView imovelLocalView;
-    private RecyclerView rv;
-    private LinearLayoutManager llm;
+    private TextView imovelAreaView;
+    private ImageView imageView;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.Adapter recyclerAdapter;
+    private ArrayList<Imovel> imoveis;
 
 //    private ListView listView;
 
@@ -36,10 +40,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 //        listView = (ListView) findViewById(R.id.listViewImoveis);
-        rv = (RecyclerView)findViewById(R.id.rv);
-        llm = new LinearLayoutManager(context);
-        rv.setLayoutManager(llm);
-
+        recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
         getImoveis();
     }
@@ -55,46 +58,23 @@ public class MainActivity extends AppCompatActivity {
         Call<Imoveis> call = apiImoveis.getImoveis();
 
         call.enqueue(new Callback<Imoveis>() {
-            public TextView imovelAreaView;
 
             @Override
             public void onResponse(Call<Imoveis> call, Response<Imoveis> response) {
-                ArrayList<Imovel> imoveis = response.body().getImoveis();
+                imoveis = response.body().getImoveis();
 
+                recyclerAdapter = new CardAdapter(getApplicationContext(), imoveis);
+                recyclerView.setAdapter(recyclerAdapter);
 //                ImageView imagemImovel = (ImageView) findViewById(R.id.imovel_imagem);
 //                imagemImovel = imoveis.get(0).getUrlImagem();
-
-                precoVendaView = (TextView) findViewById(R.id.imovel_preco);
-                double precoVenda = imoveis.get(0).getPrecoVenda();
-                precoVendaView.setText(NumberFormat.getCurrencyInstance().format(precoVenda));
-
-                imovelLocalView = (TextView) findViewById(R.id.imovel_local);
-                String imovelLocal = imoveis.get(0).getEndereco().getBairro();
-                imovelLocal += ", ";
-                imovelLocal += imoveis.get(0).getEndereco().getCidade();
-                imovelLocalView.setText(imovelLocal);
-
-                imovelAreaView = (TextView) findViewById(R.id.imovel_area);
-                String imovelArea = String.valueOf(imoveis.get(0).getDormitorios());
-                imovelArea += " dorms, ";
-                imovelArea += imoveis.get(0).getVagas();
-                if(imoveis.get(0).getVagas() > 1){
-                    imovelArea += " vagas, ";
-                } else {
-                    imovelArea += " vaga, ";
-                }
-                imovelArea += String.format("%.1f", imoveis.get(0).getAreaTotal());
-                imovelArea += " m²";
-                imovelAreaView.setText(imovelArea);
-
-
-
-
-                String[] imoveisNome = new String[imoveis.size()];
-
-                for(int i = 0; i<imoveis.size(); i++){
-                    imoveisNome[i] = imoveis.get(i).getTipoImovel();
-                }
+//                for(int i = 0; i<imoveis.size(); i++) {
+//                    setCardLayout(imoveis.get(i));
+//                }
+//                String[] imoveisNome = new String[imoveis.size()];
+//
+//                for(int i = 0; i<imoveis.size(); i++){
+//                    imoveisNome[i] = imoveis.get(i).getTipoImovel();
+//                }
 
 //                listView.setAdapter(new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, imoveisNome));
             }
@@ -104,5 +84,47 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setCardLayout(Imovel imovel) {
+        imageView = (ImageView) findViewById(R.id.imovel_imagem);
+//        Picasso.with(this)
+//                .load(imovel.getUrlImagem())
+//                .error(R.mipmap.ic_launcher)
+//                .into(imageView, new com.squareup.picasso.Callback() {
+//
+//            @Override
+//            public void onSuccess() {
+//                Log.i("ricardo ", "teste OK");
+//            }
+//
+//            @Override
+//            public void onError() {
+//                Log.i("ricardo ", "teste NOK");
+//            }
+//        });
+
+        precoVendaView = (TextView) findViewById(R.id.imovel_preco);
+        double precoVenda = imovel.getPrecoVenda();
+        precoVendaView.setText(NumberFormat.getCurrencyInstance().format(precoVenda));
+
+        imovelLocalView = (TextView) findViewById(R.id.imovel_local);
+        String imovelLocal = imovel.getEndereco().getBairro();
+        imovelLocal += ", ";
+        imovelLocal += imovel.getEndereco().getCidade();
+        imovelLocalView.setText(imovelLocal);
+
+        imovelAreaView = (TextView) findViewById(R.id.imovel_area);
+        String imovelArea = String.valueOf(imovel.getDormitorios());
+        imovelArea += " dorms, ";
+        imovelArea += imovel.getVagas();
+        if(imovel.getVagas() > 1){
+            imovelArea += " vagas, ";
+        } else {
+            imovelArea += " vaga, ";
+        }
+        imovelArea += String.format("%.1f", imovel.getAreaTotal());
+        imovelArea += " m²";
+        imovelAreaView.setText(imovelArea);
     }
 }
