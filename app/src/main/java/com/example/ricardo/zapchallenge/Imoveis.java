@@ -11,13 +11,9 @@ import java.util.List;
 
 public class Imoveis {
     @SerializedName("Imoveis")
-    private ArrayList<Imovel> imoveis;
+    private ArrayList<DetalhesImovel> imoveis;
 
-    public Imoveis(ArrayList<Imovel> imoveis) {
-        this.imoveis = imoveis;
-    }
-
-    public ArrayList<Imovel> getImoveis() {
+    public ArrayList<DetalhesImovel> getImoveis() {
         return imoveis;
     }
 }

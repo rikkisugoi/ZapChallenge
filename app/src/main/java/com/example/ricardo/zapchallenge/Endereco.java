@@ -7,8 +7,12 @@ import com.google.gson.annotations.SerializedName;
  */
 
 class Endereco {
+    @SerializedName("Logradouro")
+    private String logradouro;
     @SerializedName("Numero")
     private String numero;
+    @SerializedName("Complemento")
+    private String complemento;
     @SerializedName("CEP")
     private String CEP;
     @SerializedName("Bairro")
@@ -20,18 +24,13 @@ class Endereco {
     @SerializedName("Zona")
     private String zona;
 
-    public Endereco(String numero, String CEP, String bairro, String cidade, String estado, String zona) {
-        this.numero = numero;
-        this.CEP = CEP;
-        this.bairro = bairro;
-        this.cidade = cidade;
-        this.estado = estado;
-        this.zona = zona;
-    }
+    public String getLogradouro() { return logradouro; }
 
     public String getNumero() {
         return numero;
     }
+
+    public String getComplemento() { return complemento; }
 
     public String getCEP() {
         return CEP;
@@ -52,4 +51,5 @@ class Endereco {
     public String getZona() {
         return zona;
     }
+
 }

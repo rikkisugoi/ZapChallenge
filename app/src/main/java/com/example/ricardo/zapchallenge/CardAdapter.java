@@ -32,7 +32,7 @@ import static android.R.attr.path;
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     private static ClickListener clickListener;
     private Context context;
-    private ArrayList<Imovel> imoveis;
+    private ArrayList<DetalhesImovel> imoveis;
     private Bitmap bitmap;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -59,7 +59,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         CardAdapter.clickListener = clickListener;
     }
 
-    public CardAdapter(Context context, ArrayList<Imovel> imoveis) {
+    public CardAdapter(Context context, ArrayList<DetalhesImovel> imoveis) {
         this.context = context;
         this.imoveis = imoveis;
     }
@@ -73,7 +73,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Imovel imovel = imoveis.get(position);
+        final DetalhesImovel imovel = imoveis.get(position);
 
         Glide.with(context)
                 .load(imovel.getUrlImagem())

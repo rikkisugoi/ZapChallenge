@@ -12,11 +12,6 @@ class Cliente {
     @SerializedName("NomeFantasia")
     public String nomeFantasia;
 
-    public Cliente(int codCliente, String nomeFantasia) {
-        this.codCliente = codCliente;
-        this.nomeFantasia = nomeFantasia;
-    }
-
     public int getCodCliente() {
         return codCliente;
     }

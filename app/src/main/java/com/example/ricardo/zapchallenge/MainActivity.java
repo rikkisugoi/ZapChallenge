@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private CardAdapter recyclerAdapter;
-    private ArrayList<Imovel> imoveis;
+    private ArrayList<DetalhesImovel> imoveis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

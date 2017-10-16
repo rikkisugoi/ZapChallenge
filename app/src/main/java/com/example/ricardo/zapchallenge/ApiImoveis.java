@@ -4,6 +4,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 /**
  * Created by Ricardo on 08/10/2017.
@@ -14,4 +15,10 @@ public interface ApiImoveis {
 
     @GET("imoveis")
     Call<Imoveis> getImoveis();
+
+    @GET("imoveis/{CodImovel}")
+    Call<Imovel> getImovel(
+            @Path("CodImovel")
+            int codImovel
+    );
 }
